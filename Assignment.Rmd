@@ -1,0 +1,38 @@
+---
+title: "Assignment 3"
+author: "Philip Harmuth"
+date: "2018-01-26"
+output: pdf_document
+---
+
+# Exploratory questions
+First we load the data and packages.
+
+```{r, cache=TRUE,warning=FALSE, echo=FALSE}
+library(msgl)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+data(PrimaryCancers)
+ord_class <- order(classes)
+ord_mir <- order(colMeans(x), decreasing = TRUE)
+x <- x[ord_class, ord_mir]
+classes <- classes[ord_class]
+image(Matrix(x))
+```
+
+And plot the matrix.
+
+## Class means
+First we calculate the class means for column
+```{r, cache=TRUE}
+class.col.means <- data.frame(class = classes) %>% 
+  bind_cols(as.data.frame(x)) %>%
+  group_by(class) %>%
+  summarise_all(mean)
+
+```
+
+
+## PCA on 
