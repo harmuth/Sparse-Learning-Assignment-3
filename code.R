@@ -31,17 +31,23 @@ ggplot(plot.cols,aes(x=col.num,y=means)) +
 X.mean.matrix <- data.frame(class = classes) %>% 
   left_join(class.col.means) %>% 
   select(-class)
-
-dim(X.mean.matrix)
-dim(class.col.means)
 X.residuals <- x-X.mean.matrix
-
 X.residuals.svd <- svd(X.residuals)
-
 pc <- t(X.residuals.svd$d * t(X.residuals.svd$u)) %>%
   as.data.frame() %>% 
   bind_cols(data.frame(class = classes))
-  
+
 ggplot(pc, aes(V1,V2,col=class))+geom_point()
+
+class.pc <- data.frame(class = rep(unique(classes),each=length(pc$class)),
+           target =  rep(pc$class,length(unique(classes))),
+           pc1 = rep(pc$V1,length(unique(classes))),
+           pc2 = rep(pc$V2,length(unique(classes)))) %>%
+  mutate(same = class == target)
+
+ggplot(class.pc, aes(pc1,pc2,col=same)) +
+  geom_point() +
+  facet_wrap(~class)
+
 
 
