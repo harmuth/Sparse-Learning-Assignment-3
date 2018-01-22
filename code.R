@@ -106,3 +106,4 @@ MRS.PCA <- function(X, k, t, max.iter, convergence.threshold) {
 
 MRS.PCA(as.matrix(X.residuals), 2, 1000, 100, 0.0001)
 
+
